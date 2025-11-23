@@ -1,0 +1,16 @@
+# Live-build build artifacts
+winbian-live/binary*
+winbian-live/cache/
+winbian-live/chroot/
+winbian-live/*.iso
+winbian-live/*.contents
+winbian-live/*.files
+winbian-live/*.packages
+winbian-live/*.modified_timestamps
+
+# Optional: keep config directory but exclude large files
+# winbian-live/config/
+!winbian-live/config/
+
+# Keep auto directory structure but exclude large content
+winbian-live/auto/.build

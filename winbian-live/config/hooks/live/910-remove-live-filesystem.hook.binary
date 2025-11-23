@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+# remove the file that causes packages to be removed after installation
+if [ -e "${CHROOT_DIR}/live/filesystem.packages-remove" ]; then
+    rm "${CHROOT_DIR}/live/filesystem.packages-remove"
+fi
