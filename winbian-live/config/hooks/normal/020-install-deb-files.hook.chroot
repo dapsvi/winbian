@@ -1,0 +1,2 @@
+apt install -y /root/winboat.deb
+apt install -y /root/onlyoffice.deb

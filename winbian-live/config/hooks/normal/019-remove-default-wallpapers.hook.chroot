@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+echo "Removing default wallpaper themes..."
+
+for theme_dir in /usr/share/desktop-base/*-theme/; do
+    if [ -d "$theme_dir" ] && [ ! -L "$theme_dir" ]; then
+        echo "Removing theme directory: $theme_dir"
+        rm -rf "$theme_dir"
+    fi
+done
+
+find /usr/share/desktop-base/ -maxdepth 1 -type d -empty -delete 2>/dev/null || true
+
+echo "Default wallpaper themes removed successfully"

@@ -1,0 +1,43 @@
+#!/bin/bash
+set -e
+
+apt-get remove -y docker.io docker-buildx docker-ce docker-ce-cli docker-ce-rootless-extras containerd runc
+apt-get purge -y docker.io docker-buildx containerd runc
+apt-get autoremove -y --purge
+
+apt-get update
+apt-get install -y ca-certificates curl gnupg
+
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+
+echo \
+"deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo $VERSION_CODENAME) stable" \
+  > /etc/apt/sources.list.d/docker.list
+
+apt-get update
+
+apt-get install -y \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-buildx-plugin \
+    docker-compose-plugin
+
+systemctl enable docker || true
+
+if ! getent group docker >/dev/null; then
+    groupadd docker
+fi
+
+TARGET_USER="$(getent passwd 1000 | cut -d: -f1)"
+
+if [ -n "$TARGET_USER" ]; then
+    usermod -aG docker "$TARGET_USER"
+else
+    echo "[!] No UID 1000 user found; skipping usermod"
+fi
+
+chmod 660 /var/run/docker.sock || true

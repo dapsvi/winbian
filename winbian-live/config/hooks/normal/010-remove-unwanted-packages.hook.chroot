@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-# Purge GNOME, LibreOffice/OpenOffice, and their dependencies
+
 apt-get purge -y --auto-remove \
     gnome \
     task-gnome-desktop \
